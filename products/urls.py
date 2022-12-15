@@ -9,6 +9,9 @@ urlpatterns=[
 
     path('',views.product_list_create_view),
 
+    path('<int:pk>/update', views.ProductUpdateAPIView.as_view()),
+    path('<int:pk>/delete', views.ProductDeleteAPIView.as_view()),
+
     # Primary key (pk)
     path('<int:pk>/',views.ProductDetailAPIView.as_view())
     #ANother method of implementing
