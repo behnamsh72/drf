@@ -1,5 +1,5 @@
 from rest_framework import generics,mixins,authentication,permissions
-
+from api.authentication import TokenAuthentication
 from .models import Product
 from .serializers import ProductSerializer
 from rest_framework.decorators import api_view
@@ -37,7 +37,9 @@ from .permissions import IsStaffEditorPermission
 class ProductListCreateApiView(generics.ListCreateAPIView):
     queryset = Product.objects.all()
     serializer_class = ProductSerializer
-    authentication_classes = [authentication.SessionAuthentication]
+    authentication_classes = [authentication.SessionAuthentication,
+                              # authentication.TokenAuthentication
+                              TokenAuthentication]
     # permission_classes = [permissions.DjangoModelPermissions]
     permission_classes = [permissions.IsAdminUser,IsStaffEditorPermission]
     def perform_create(self, serializer):
