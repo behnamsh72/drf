@@ -1,5 +1,4 @@
-from rest_framework import generics,mixins,authentication,permissions
-from api.authentication import TokenAuthentication
+from rest_framework import generics,mixins, permissions
 from .models import Product
 from .serializers import ProductSerializer
 from rest_framework.decorators import api_view
@@ -8,7 +7,9 @@ from rest_framework.response import Response
 
 from django.shortcuts import get_object_or_404
 
-from .permissions import IsStaffEditorPermission
+from cfehome.permissions import IsStaffEditorPermission
+from api.mixins import StaffEditorPermissionMixin
+
 
 # Create your views here.
 
@@ -34,7 +35,7 @@ from .permissions import IsStaffEditorPermission
 
 # if we use get method this function retriev all the products and
 # if we use post method this function creates all the
-class ProductListCreateApiView(generics.ListCreateAPIView):
+class ProductListCreateApiView(StaffEditorPermissionMixin,generics.ListCreateAPIView):
     queryset = Product.objects.all()
     serializer_class = ProductSerializer
     #Because we defined it in the defaiult setting it's redundent
@@ -42,7 +43,8 @@ class ProductListCreateApiView(generics.ListCreateAPIView):
     #                           # authentication.TokenAuthentication
     #                           TokenAuthentication]
     # permission_classes = [permissions.DjangoModelPermissions]
-    permission_classes = [permissions.IsAdminUser,IsStaffEditorPermission]
+    #commented because we extend this class from StaffEditorPermissionMixin
+    # permission_classes = [permissions.IsAdminUser,IsStaffEditorPermission]
     def perform_create(self, serializer):
         # serializer.save(user=self.request.user)
         print(serializer.validated_data)
@@ -59,20 +61,23 @@ class ProductListCreateApiView(generics.ListCreateAPIView):
 product_list_create_view = ProductListCreateApiView.as_view()
 
 
-class ProductDetailAPIView(generics.RetrieveAPIView):
+class ProductDetailAPIView(StaffEditorPermissionMixin,generics.RetrieveAPIView):
     queryset = Product.objects.all()
     serializer_class = ProductSerializer
-    permission_classes = [permissions.IsAdminUser,IsStaffEditorPermission]
+    #commented because we extend this class from StaffEditorPermissionMixin
+    # permission_classes = [permissions.IsAdminUser,IsStaffEditorPermission]
 
     # lookup_field = 'pk'
     # Product.ob
 
 
-class ProductUpdateAPIView(generics.UpdateAPIView):
+class ProductUpdateAPIView(StaffEditorPermissionMixin,generics.UpdateAPIView):
     queryset = Product.objects.all()
     serializer_class = ProductSerializer
     lookup_field = 'pk'
-    permission_classes = [permissions.IsAdminUser,IsStaffEditorPermission]
+    #commented because we extend this class from StaffEditorPermissionMixin
+
+    # permission_classes = [permissions.IsAdminUser,IsStaffEditorPermission]
 
 
     def perform_update(self, serializer):
@@ -81,11 +86,13 @@ class ProductUpdateAPIView(generics.UpdateAPIView):
             instance.content = instance.title
 
 
-class ProductDeleteAPIView(generics.DestroyAPIView):
+class ProductDeleteAPIView(StaffEditorPermissionMixin,generics.DestroyAPIView):
     queryset = Product.objects.all()
     serializer_class = ProductSerializer
     lookup_field = 'pk'
-    permission_classes = [permissions.IsAdminUser,IsStaffEditorPermission]
+    #commented because we extend this class from StaffEditorPermissionMixin
+
+    # permission_classes = [permissions.IsAdminUser,IsStaffEditorPermission]
 
 
     def perform_delete(self, instance):
@@ -108,7 +115,8 @@ product_list_view = ProductListApiView.as_view()
 
 
 #Working with Mixnin
-class ProductMixinView(mixins.CreateModelMixin,mixins.ListModelMixin,mixins.RetrieveModelMixin,generics.GenericAPIView):
+class ProductMixinView(mixins.CreateModelMixin,mixins.ListModelMixin,mixins.RetrieveModelMixin,generics.GenericAPIView
+                       ,StaffEditorPermissionMixin):
     queryset = Product.objects.all()
     serializer_class = ProductSerializer
     lookup_field = 'pk'
