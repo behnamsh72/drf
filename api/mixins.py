@@ -11,9 +11,9 @@ class UserQuerySetMixin():
         allow_staff_view=False
         lookup_data={}
         lookup_data[self.user_field]=user
-        print(lookup_data)
+        # print(lookup_data)
         qs=super().get_queryset(*args,**kwargs)
-        print(qs)
+        # print(qs)
         #show all products data to is_staff users only
         if self.allow_staff_view and user.is_staff:
             return qs

@@ -77,6 +77,8 @@ product_list_create_view = ProductListCreateApiView.as_view()
 class ProductDetailAPIView(UserQuerySetMixin,StaffEditorPermissionMixin, generics.RetrieveAPIView):
     queryset = Product.objects.all()
     serializer_class = ProductSerializer
+    allow_staff_view=False
+
     # commented because we extend this class from StaffEditorPermissionMixin
     # permission_classes = [permissions.IsAdminUser,IsStaffEditorPermission]
 
