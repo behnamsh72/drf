@@ -12,7 +12,7 @@ urlpatterns=[
 
 
     path('<int:pk>/update', views.ProductUpdateAPIView.as_view(),name="product-edit"),
-    path('<int:pk>/delete', views.ProductDeleteAPIView.as_view()),
+    path('<int:pk>/delete', views.ProductDestroyAPIView.as_view()),
 
     # Primary key (pk)
     path('<int:pk>/',views.ProductDetailAPIView.as_view(),name='product-detail')

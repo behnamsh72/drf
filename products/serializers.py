@@ -12,9 +12,11 @@ class ProductSerializer(serializers.ModelSerializer):
     class Meta:
         model = Product
         # fields = ['title', 'content', 'price', 'sale_price', 'get_discount']
-        fields = ['pk', 'url', 'edit_url', 'title','content', 'price', 'sale_price', 'my_discount']
 
-        fields = ['pk', 'url', 'edit_url', 'title','content', 'price', 'sale_price', 'my_discount']
+        fields = [#'user',
+                  'pk', 'url', 'edit_url', 'title',
+            # 'name',
+            'content', 'price', 'sale_price', 'my_discount']
         # fields = ['pk', 'url', 'edit_url', 'title','name','content', 'price', 'sale_price', 'my_discount']
 
     #
