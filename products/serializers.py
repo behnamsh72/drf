@@ -3,10 +3,17 @@ from .models import Product
 from rest_framework.reverse import reverse
 from api.serializers import UserPublicSerializer
 from . import validators
+
+class ProductInlineSerializer(serializers.Serializer):
+    url=serializers.HyperlinkedIdentityField(view_name='product-detail',lookup_field='pk',read_only=True)
+    title=serializers.CharField(read_only=True)
+
+
 class ProductSerializer(serializers.ModelSerializer):
 
     owner=UserPublicSerializer(source='user',read_only=True)
 
+    related_products=ProductInlineSerializer(source='user.product_set.all',read_only=True,many=True)
     #Instad of user field we can declare user as serializer method field
     my_user_data=serializers.SerializerMethodField(read_only=True)
     my_discount = serializers.SerializerMethodField(read_only=True)
@@ -24,7 +31,7 @@ class ProductSerializer(serializers.ModelSerializer):
                   #'email',
                   'pk', 'url', 'edit_url', 'title',
             # 'name',
-            'content', 'price', 'sale_price', 'my_discount','my_user_data',]
+            'content', 'price', 'sale_price', 'my_discount','my_user_data','related_products']
         # fields = ['pk', 'url', 'edit_url', 'title','name','content', 'price', 'sale_price', 'my_discount']
 
     #
