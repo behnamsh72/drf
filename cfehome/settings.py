@@ -130,7 +130,10 @@ if DEBUG:
                     "api.authentication.TokenAuthentication"
                     ]
 REST_FRAMEWORK = {
-    "DEFAULT_AUTHENTICATION_CLASSES": auth_classes,
+    "DEFAULT_AUTHENTICATION_CLASSES": auth_classes ,
     "DEFAULT_PERMISSION_CLASSES": [
-        "rest_framework.permissions.IsAuthenticatedOrReadOnly"]  # only use GET for every one]
+        "rest_framework.permissions.IsAuthenticatedOrReadOnly",],  # only use GET for every one]
+
+    "DEFAULT_PAGINATION_CLASS":"rest_framework.pagination.LimitOffsetPagination",
+    "PAGE_SIZE":10
 } 
