@@ -32,7 +32,7 @@ class ProductSerializer(serializers.ModelSerializer):
                   # 'email',
                   'pk', 'url', 'edit_url', 'title',
                   # 'name',
-                  'content', 'price', 'sale_price',
+                  'content', 'price', 'sale_price','public',
                   # 'my_discount',
                   # 'my_user_data',
                   # 'related_products'
